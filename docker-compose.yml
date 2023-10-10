@@ -1,0 +1,16 @@
+version: "3.8"
+services:
+  database:
+    image: mysql:8.0.33
+    # command: mysqld --user=root
+    ports:
+      - ${DATABASE_PRIMARY_PORT}:${DATABASE_PRIMARY_PORT}
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10

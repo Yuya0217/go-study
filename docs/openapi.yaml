@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  title: 薬情報 API
+  version: 1.0.0
+
+paths:
+  /medicines:
+    get:
+      summary: 薬のリストを取得する
+      parameters:
+        - name: medicineName
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: medicineType
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 薬のリスト
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Medicine'
+
+    post:
+      summary: 新しい薬を作成する
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medicine'
+      responses:
+        '201':
+          description: 作成された薬
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicine'
+
+  /medicines/{id}:
+    get:
+      summary: IDで薬を取得する
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 薬の詳細
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicine'
+
+    put:
+      summary: IDで薬を更新する
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Medicine'
+      responses:
+        '200':
+          description: 更新された薬
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Medicine'
+
+    delete:
+      summary: IDで薬を削除する
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: 削除成功
+
+components:
+  schemas:
+    Medicine:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: 薬のID
+        medicineName:
+          type: string
+          description: 薬の名前
+        medicineType:
+          type: string
+          description: 薬のタイプ
+      required:
+        - id
+        - medicineName
+        - medicineType
+    MedicineRequest:
+      type: object
+      properties:
+        medicineName:
+          type: string
+          description: 薬の名前
+        medicineType:
+          type: string
+          description: 薬のタイプ
+      required:
+        - medicineName
+        - medicineType
